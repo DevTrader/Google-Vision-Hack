@@ -103,7 +103,17 @@
       context.drawImage(video, 0, 0, width, height);
     
       var data = canvas.toDataURL('image/png');
-      sendFileToCloudVision(data);
+
+
+        var content = data;
+	//content = content.replace('data:image/jpeg;base64,', 'hi');
+	console.log(typeof content)
+	console.log(content);
+	//salert('adf')
+	console.log('asdfa')
+	  sendFileToCloudVision(content.replace('data:image/png;base64,', ''));
+
+      //sendFileToCloudVision(content);
       //console.log(data);
       photo.setAttribute('src', data);
     } else {
@@ -111,9 +121,12 @@
     }
   }
 
+  //window.setInterval(function(){takepicture()},500)
+
   // Set up our event listener to run the startup process
   // once loading is complete.
   window.addEventListener('load', startup, false);
+})();
 
 // Copyright 2015, Google, Inc.
 // Licensed under the Apache License, Version 2.0 (the "License")
@@ -164,6 +177,9 @@ function processFile (event) {
  * results.
  */
 function sendFileToCloudVision (content) {
+
+	console.log(content);
+	
   var type = $('#fileform [name=type]').val();
 
   // Strip out the file prefix when you convert to json.
@@ -178,8 +194,11 @@ function sendFileToCloudVision (content) {
       }]
     }]
   };
-
+//https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBf2xSFrE5QnrAvHSIDt3hw_qxyKlzcX_0
+//https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBf2xSFrE5QnrAvHSIDt3hw_qxyKlzcX_0
+ console.log(CV_URL)
   $('#results').text('Loading...');
+  
   $.post({
     url: CV_URL,
     data: JSON.stringify(request),
@@ -201,4 +220,3 @@ function displayJSON (data) {
 }
 
 
-})();
